@@ -27,6 +27,10 @@ class UserResource extends Resource
                     ->label('Nombre completo')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\TextInput::make('about_me')
+                    ->label('Acerca de mi')
+                    ->required()
+                    ->maxLength(500),
                 Forms\Components\TextInput::make('email')
                     ->label('Correo electrónico')
                     ->email()
@@ -57,8 +61,13 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->label('Nombre completo')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
+                    ->label('Correo electronico')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('about_me')
+                    ->label('Acerca de mi')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email_verified_at')
                     ->dateTime()
