@@ -38,3 +38,25 @@
         flex: 0 0 100%;
     }
 }
+
+
+#footer
+{
+    margin-top: 5rem;
+}
+
+.content-item
+{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    max-width: 480px; 
+}
+
+.photo-profile {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+
+}

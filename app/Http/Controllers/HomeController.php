@@ -12,7 +12,13 @@ class HomeController extends Controller
     {
         $user = User::first();
         $photos = Photograph::where('album_id', null)
-            ->paginate(10);
+            ->paginate(9);
         return view('welcome', compact('user', 'photos'));
+    }
+
+    public function contact() 
+    {
+        $user = User::first();
+        return view('contacto', compact('user'));
     }
 }

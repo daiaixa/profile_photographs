@@ -5,3 +5,5 @@ use App\Http\Controllers\HomeController;
 
 
 Route::get('/', [HomeController::class, 'home']);
+
+Route::get('/contacto', [HomeController::class, 'contact'])->name('contacto');
