@@ -17,6 +17,7 @@ class Photograph extends Model
         'user_id',
         'album_id'
     ];
+    
 
     // RELACIONES
     public function album(): BelongsTo
@@ -35,6 +36,7 @@ class Photograph extends Model
             ->withTimestamps();
     }
 
+
     // METODOS
     protected function getImageUrlAttribute()
     {
@@ -49,6 +51,7 @@ class Photograph extends Model
         //Si no entró en ningun if, se trata de una ruta local
         return asset('storage/' . $this->image_path);
     }
+
 
     // Este metodo permite que se genere auntomaticamente un posible titulo, de esa forma si el usuario
     // quiere modificarlo, lo hace, sino deja este y añade una descripcion si lo desea
