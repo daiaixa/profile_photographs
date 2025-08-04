@@ -70,6 +70,6 @@ class User extends Authenticatable
         if (str_starts_with($this->image_profile, 'http'))
             return str_replace('http://', 'https://', $this->image_profile);
 
-        return asset('storage/', $this->image_profile);
+        return asset('storage/'. $this->image_profile);
     }
 }

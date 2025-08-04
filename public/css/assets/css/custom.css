@@ -26,20 +26,6 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-
-@media (max-width: 768px) {
-    .content-photo {
-        flex: 0 0 48%;
-    }
-}
-
-@media (max-width: 500px) {
-    .content-photo {
-        flex: 0 0 100%;
-    }
-}
-
-
 #footer
 {
     margin-top: 5rem;
@@ -58,5 +44,21 @@
     height: 100%;
     object-fit: cover;
     object-position: center;
-
+    border-radius: 5px;
+    margin-top: 3rem;
 }
+
+
+@media (max-width: 768px) {
+    .content-photo {
+        flex: 0 0 48%;
+    }
+}
+
+@media (max-width: 500px) {
+    .content-photo {
+        flex: 0 0 100%;
+    }
+}
+
+
