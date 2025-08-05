@@ -1,6 +1,6 @@
 <nav id="nav">
     <ul class="links">
-        <li class="active"><a href="{{route('welcome')}}">Acerca de mi</a></li>
+        <li><a href="{{route('welcome')}}">Acerca de mi</a></li>
         <li><a href="{{ route('albumes') }}">Álbumes Fotograficos</a></li>
         <li><a href="{{ route('contacto') }}">Contactame</a></li>
     </ul>

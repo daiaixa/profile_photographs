@@ -42,6 +42,6 @@ class Album extends Model
             return str_replace('http://', 'https://', $this->main_photo);
 
         // Si no entre en ninguno de los anteriores
-        return asset('storage/', $this->main_photo);
+        return asset('storage/'. $this->main_photo);
     }
 }

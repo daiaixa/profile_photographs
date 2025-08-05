@@ -1,5 +1,5 @@
-<x-layout>
-    <!-- Wrapper -->
+<x-layout :user="$user">
+    
     <footer id="footer">
         <section>
             <form method="post" action="#">
@@ -26,7 +26,7 @@
         <section class="split contact">
             <section class="alt">
                 <div class="content-items">
-                    <h3>{{ $user->name }} ~ Fotografo profesional </h3>
+                    <h3> ~ Fotografo profesional ~</h3>
                     <img src="{{ $user->image_url }}" alt="" class="photo-profile">
                 </div>
             </section>

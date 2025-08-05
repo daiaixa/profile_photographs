@@ -27,8 +27,9 @@ class HomeController extends Controller
 
     public function albums()
     {
+        $user = User::first();
         $albums = Album::with('photographs')->get();
-        return view('albumes', compact('albums'));
+        return view('albumes', compact('user','albums'));
     }
 
     public function showAlbum($id)
@@ -37,6 +38,6 @@ class HomeController extends Controller
         $photos = Photograph::where('album_id', $id)
             ->paginate(9);
 
-        return view('album', compact('user', 'photos'));
+        return view('show-album', compact('user', 'photos'));
     }
 }

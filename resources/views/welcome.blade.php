@@ -1,11 +1,4 @@
-<x-layout>
-    <header id="header">
-        <a href="index.html" class="logo">{{ $user->name }}</a>
-        <p>Fotografo</p>
-    </header>
-
-    <!-- Nav -->
-    <x-nav />
+<x-layout :user="$user">
 
     <!-- Main -->
     <div id="main">

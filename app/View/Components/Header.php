@@ -7,8 +7,9 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class Layout extends Component
+class Header extends Component
 {
+    
     public User $user;
     /**
      * Create a new component instance.
@@ -22,6 +23,6 @@ class Layout extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.layout');
+        return view('components.header');
     }
 }

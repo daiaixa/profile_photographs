@@ -11,11 +11,15 @@
     </noscript>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="css/assets/css/custom.css" />
-    <!-- boostrap -->
-    </head>
+
+    
+</head>
 
 <body class="is-preload">
 
+    <!-- Wrapper -->
+    <x-header :user="$user" />
+    <!-- Nav -->
     <x-nav />
 
     {{ $slot }}
@@ -24,8 +28,8 @@
     <!-- Copyright -->
     <div id="copyright">
         <ul>
-            <li>&copy; Untitled</li>
-            <li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
+            <li>&copy; Aixa Desarrollo </li>
+            <li>  <a href="#"></a></li>
         </ul>
     </div>
 
@@ -40,7 +44,7 @@
     <script src="js/assets/js/main.js"></script>
 
     <!-- Bootstrap JS -->
-    
+
 </body>
 
 </html>
