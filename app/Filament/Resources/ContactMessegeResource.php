@@ -3,15 +3,18 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ContactMessegeResource\Pages;
-use App\Filament\Resources\ContactMessegeResource\RelationManagers;
+
 use App\Models\ContactMessege;
+use Filament\Tables\Actions\ViewAction;
 use Filament\Forms;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+
 
 class ContactMessegeResource extends Resource
 {
@@ -57,27 +60,27 @@ class ContactMessegeResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('fullname')
                     ->label('Nombre completo del remitente')
-                    ->searchable(),
+                    ->weight(fn(ContactMessege $record) => $record->is_read ? 'normal' : 'bold')
+                    ->color(fn(ContactMessege $record) => $record->is_read ? 'gray' : 'primary'),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Fecha de recepcion')
+                    ->dateTime()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('email')
                     ->label('Email del remitente')
-                    ->searchable(),
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('phone')
                     ->label('Teléfono del remitente')
-                    ->searchable(),
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('subject')
                     ->label('Asunto del contacto')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('message')
                     ->label('Mensaje')
-                    ->searchable(),
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\IconColumn::make('is_read')
                     ->label('Leído')
                     ->boolean(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->label('Fecha de creación')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->label('Fecha de lectura')
                     ->dateTime()
@@ -88,12 +91,36 @@ class ContactMessegeResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                ViewAction::make() // Solo permite ver, no editar
+                    ->modalHeading('Mensaje de contacto')
+                    ->form([
+                        TextInput::make('fullname')->disabled(),
+                        TextInput::make('email')->disabled(),
+                        TextInput::make('phone')->disabled(),
+                        TextInput::make('subject')->disabled(),
+                        Textarea::make('message')
+                            ->disabled()
+                            ->rows(10)
+                            ->columnSpanFull(),
+                    ])
+                    ->action(function (ContactMessege $record) {
+                        if (!$record->is_read) {
+                            $record->update(['is_read' => true]);
+                            // Forzar refresco de la tabla
+                            $this->refresh();
+                        }
+                    })
+                    ->extraModalFooterActions([
+                        Action::make('markAsRead')
+                            ->label('Marcar como leído')
+                            ->color('primary')
+                            ->action(function (ContactMessege $record) {
+                                $record->update(['is_read' => true]);
+                            })
+                    ])
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
 
@@ -111,5 +138,15 @@ class ContactMessegeResource extends Resource
             'create' => Pages\CreateContactMessege::route('/create'),
             'edit' => Pages\EditContactMessege::route('/{record}/edit'),
         ];
+    }
+
+    public static function canCreate(): bool
+    {
+        return false;
+    }
+
+    public static function canEdit(mixed $record): bool
+    {
+        return false;
     }
 }

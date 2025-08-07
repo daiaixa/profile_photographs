@@ -35,6 +35,7 @@ class PhotographResource extends Resource
                 Forms\Components\FileUpload::make('image_path')
                     ->label('Foto')
                     ->image()
+                    ->acceptedFileTypes(['image/jpeg']) // solo MIME de .jpg
                     ->directory('photographs')
                     ->maxSize(2048) // en KB
                     ->imageResizeTargetWidth('800')

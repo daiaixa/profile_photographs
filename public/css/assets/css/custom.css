@@ -173,3 +173,38 @@ a
 {
 	border-bottom: 0;
 }
+
+
+.content
+{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding: 1rem;
+}
+
+.content-text
+{
+	font-size: 1.5rem;
+	letter-spacing: 1px;
+}
+
+
+.content-text h1
+{
+	font-size: 3rem;
+	letter-spacing: 1px;
+}
+
+@media screen and (max-width: 700px) {
+	
+	.content-text {
+		font-size: 0.8rem;
+		letter-spacing: 0.5px;
+	}
+	.content-text h1 {
+		font-size: 1.5rem;
+	}
+	
+}

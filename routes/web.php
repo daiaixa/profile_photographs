@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ContactMessegeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 
@@ -11,3 +12,6 @@ Route::get('/contacto', [HomeController::class, 'contact'])->name('contacto');
 Route::get('/albumes', [HomeController::class, 'albums'])->name('albumes');
 
 Route::get('/albumes/{id}', [HomeController::class, 'showAlbum'])->name('show-album');
+
+
+Route::post('/contact', [ContactMessegeController::class, 'store'])->name('contact.store');
