@@ -2,14 +2,19 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ContactMessegeResource\Pages;
 
+use App\Filament\Resources\ContactMessegeResource\Pages;
 use App\Models\ContactMessege;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Forms;
+use Filament\Forms\Components\Grid;
+
+use Filament\Forms\Components\Placeholder;
+use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Actions\Action;
@@ -94,29 +99,54 @@ class ContactMessegeResource extends Resource
                 ViewAction::make() // Solo permite ver, no editar
                     ->modalHeading('Mensaje de contacto')
                     ->form([
-                        TextInput::make('fullname')->disabled(),
-                        TextInput::make('email')->disabled(),
-                        TextInput::make('phone')->disabled(),
-                        TextInput::make('subject')->disabled(),
+                        Grid::make(2)
+                            ->schema([
+                                Placeholder::make('Nombre completo')
+                                    ->content((fn($record) => $record->fullname)),
+                                Placeholder::make('Telefono - Email')
+                                    ->content((fn($record) => $record->phone . ' - ' . $record->email)),
+                            ]),
+                        Placeholder::make('Asunto')
+                            ->content(fn(ContactMessege $record) => $record->subject),
                         Textarea::make('message')
+                            ->label('Mensaje')
                             ->disabled()
-                            ->rows(10)
+                            ->rows(5)
                             ->columnSpanFull(),
                     ])
-                    ->action(function (ContactMessege $record) {
-                        if (!$record->is_read) {
-                            $record->update(['is_read' => true]);
-                            // Forzar refresco de la tabla
-                            $this->refresh();
-                        }
-                    })
+                    ->modalSubmitAction(false) //desactiva el botón de enviar
+                    ->closeModalByClickingAway(true) // Permite cerrar el modal al hacer clic fuera de él
                     ->extraModalFooterActions([
                         Action::make('markAsRead')
-                            ->label('Marcar como leído')
-                            ->color('primary')
+                            ->label('')
+                            ->tooltip('Marcar como leído')
+                            ->icon('heroicon-o-check')
+                            ->color('success')
                             ->action(function (ContactMessege $record) {
                                 $record->update(['is_read' => true]);
-                            })
+                            }),
+                        Action::make('respond')
+                            ->label('Responder')
+                            ->color('primary')
+                            ->form([
+                                RichEditor::make('respuesta')
+                                    ->label('Escribe tu respuesta aquí')
+                                    ->required()
+                                    ->toolbarButtons(['bold', 'italic', 'link', 'bulletList', 'orderedList']),
+                            ])
+                            ->modalHeading('Responder al mensaje')
+                            ->modalSubmitActionLabel('Enviar respuesta')
+                            ->action(function (ContactMessege $record, array $data) {
+                                // Enviar la respuesta por email
+                                
+
+                                $record->update(['is_read' => true]);
+
+                                Notification::make()
+                                    ->title('Respuesta enviada con éxito')
+                                    ->success()
+                                    ->send();
+                            }),
                     ])
             ])
             ->bulkActions([

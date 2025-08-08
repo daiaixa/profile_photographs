@@ -6,6 +6,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <link rel="stylesheet" href="{{ asset('css/assets/css/main.css') }}" />
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
     <noscript>
         <link rel="stylesheet" href="{{ asset('css/assets/css/noscript.css') }}" />
     </noscript>
