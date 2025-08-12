@@ -38,6 +38,8 @@
         </div>
 
 
+        <!-- alpinejs -->
+        <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
         <!-- Scripts -->
         <script src="{{ asset('js/assets/js/jquery.min.js') }}"></script>

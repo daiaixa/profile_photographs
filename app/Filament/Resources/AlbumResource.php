@@ -22,6 +22,8 @@ class AlbumResource extends Resource
 {
     protected static ?string $model = Album::class;
 
+     protected static ?string $navigationLabel   = 'Albumes';
+
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form

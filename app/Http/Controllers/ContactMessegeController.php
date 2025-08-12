@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ContactMessege;
+use Filament\Notifications\Notification;
 use Illuminate\Http\Request;
 
 class ContactMessegeController extends Controller
@@ -27,6 +28,7 @@ class ContactMessegeController extends Controller
             'is_read' => false, // Por defecto no leído
         ]);
 
-        return redirect()->back()->with('success', '¡Mensaje enviado correctamente!');
+               
+        return back()->with('success', '¡ Mensaje enviado ! Nos comunicarsemos muy pronto.' );
     }
 }

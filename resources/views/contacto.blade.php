@@ -1,3 +1,18 @@
+@if (session('success'))
+  <div
+    x-data="{ show: true }"
+    x-init="setTimeout(() => show = false, 4000)"   {{-- 4s --}}
+    x-show="show"
+    x-transition.opacity.duration.300
+    x-on:transitionend="if (!show) $el.remove()"
+    class="fixed top-4 right-4 z-50 w-72"
+    aria-live="polite">
+    <x-alert type="success" class="p-3 shadow-lg border border-green-200">
+      {{ session('success') }}
+    </x-alert>
+  </div>
+@endif
+
 <x-layout :user="$user">
     <footer id="footer">
         <section>

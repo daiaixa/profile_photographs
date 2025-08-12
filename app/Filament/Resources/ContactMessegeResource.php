@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 
 use App\Filament\Resources\ContactMessegeResource\Pages;
+use App\Mail\RespondMail;
 use App\Models\ContactMessege;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Forms;
@@ -19,11 +20,13 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Table;
-
+use Illuminate\Support\Facades\Mail;
 
 class ContactMessegeResource extends Resource
 {
     protected static ?string $model = ContactMessege::class;
+
+    protected static ?string $navigationLabel   = 'Contacto'; 
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -130,7 +133,7 @@ class ContactMessegeResource extends Resource
                             ->color('primary')
                             ->form([
                                 RichEditor::make('respuesta')
-                                    ->label('Escribe tu respuesta aquí')
+                                    ->label('Escribe tu respuesta aquí: ')
                                     ->required()
                                     ->toolbarButtons(['bold', 'italic', 'link', 'bulletList', 'orderedList']),
                             ])
@@ -138,7 +141,9 @@ class ContactMessegeResource extends Resource
                             ->modalSubmitActionLabel('Enviar respuesta')
                             ->action(function (ContactMessege $record, array $data) {
                                 // Enviar la respuesta por email
-                                
+                                Mail::to($record->email)->send(
+                                    new RespondMail('Re: ' . $record->subject, $data['respuesta'])
+                                );
 
                                 $record->update(['is_read' => true]);
 
@@ -152,6 +157,20 @@ class ContactMessegeResource extends Resource
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
+    }
+
+    // En ContactMessegeResource
+    public static function getNavigationBadge(): ?string
+    {
+        $count = \App\Models\ContactMessege::where('is_read', false)->count();
+        return $count ? (string) $count : null; // si es 0, oculta el badge
+    }
+
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return \App\Models\ContactMessege::where('is_read', false)->exists()
+            ? 'primary'
+            : 'danger';
     }
 
     public static function getRelations(): array

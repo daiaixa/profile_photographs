@@ -16,10 +16,17 @@ class RespondMail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct(public string $subjectText, public string $bodyText)
     {
         //
     }
+
+    public function build()
+    {
+        return $this->subject($this->subjectText)
+                    ->html($this->bodyText);
+    }
+
 
     /**
      * Get the message envelope.
